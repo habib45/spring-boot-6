@@ -1,5 +1,8 @@
 package com.chat2.chat2.Models;
 
+import java.sql.Date;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,10 +14,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "email",unique = true)
     private String email;
+    @Column(name = "username",unique = true)
     private String username;
     private String password;
-
+    private String mobile;
+    // @Column(columnDefinition = "String default active")
+    private String status;
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdDate;
+    
     // Getters and Setters
 
     public Long getId() {
@@ -40,7 +50,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getUsername() {
         return username;
     }
@@ -55,6 +65,30 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
    
