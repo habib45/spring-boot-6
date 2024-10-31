@@ -7,13 +7,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "The name is required.")
+    @Size(min = 2, max = 100, message = "The length of name must be between 2 and 100 characters.")     
     private String name;
+
     @Column(name = "email",unique = true)
     private String email;
     @Column(name = "username",unique = true)
