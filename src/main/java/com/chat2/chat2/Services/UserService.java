@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.chat2.chat2.Models.User;
 import com.chat2.chat2.Repositories.UserRepository;
+import com.chat2.chat2.exception.DataNotFoundException;
 
 import java.util.List;
 
@@ -29,7 +30,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("User with ID " + id + " not found"));
+    }
+
     public void deleteById(Long id) {
+        
         userRepository.deleteById(id);
+        
     }
 }
