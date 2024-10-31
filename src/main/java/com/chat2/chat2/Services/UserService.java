@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.chat2.chat2.Models.User;
 import com.chat2.chat2.Repositories.UserRepository;
+import com.chat2.chat2.Requests.UserCreateRequest;
 import com.chat2.chat2.Requests.UserUpdateRequest;
 import com.chat2.chat2.exception.DataNotFoundException;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -18,24 +20,27 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User save(User user) {
+    public List<User> findAll() {
+        return this.userRepository.findAll();
+    }
+
+    public User CreateUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         if(user.getStatus()==null){
             user.setStatus("Active");
         }
-        return userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     @Transactional
     public User updateUser(Long userId, UserUpdateRequest updateRequest) {
-        User user = userRepository.findById(userId)
+        User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         // Only update password if it is not null or empty
         if (updateRequest.getPassword() != null && !updateRequest.getPassword().isEmpty()) {
@@ -47,7 +52,12 @@ public class UserService {
         if (updateRequest.getEmail() != null) {
             user.setEmail(updateRequest.getEmail());
         }
+        
         if (updateRequest.getMobile() != null) {
+            user.setMobile(updateRequest.getMobile());
+        }
+
+         if (updateRequest.getMobile() != null) {
             user.setMobile(updateRequest.getMobile());
         }
 
@@ -55,13 +65,11 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(
+        return this.userRepository.findById(id).orElseThrow(
                 () -> new DataNotFoundException("User with ID " + id + " not found"));
     }
 
     public void deleteById(Long id) {
-        
-        userRepository.deleteById(id);
-        
+        this.userRepository.deleteById(id);
     }
 }
