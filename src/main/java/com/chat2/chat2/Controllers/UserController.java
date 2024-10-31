@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.chat2.chat2.Models.User;
+import com.chat2.chat2.Requests.UserUpdateRequest;
 import com.chat2.chat2.Services.UserService;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,11 @@ public class UserController {
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest updateRequest) {
+        return ResponseEntity.ok(userService.updateUser(id, updateRequest));
     }
 
     @DeleteMapping("/users/{id}")
