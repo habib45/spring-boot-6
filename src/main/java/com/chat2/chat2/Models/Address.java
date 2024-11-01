@@ -1,6 +1,5 @@
 package com.chat2.chat2.Models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -10,34 +9,34 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.NonNull;
 
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GeneratedValue.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull(message="This address field is required")
+    @NotNull(message = "This address field is required")
     private String address;
     private String saddress;
     @NotEmpty(message = "The city is required.")
     private String city;
     private String state;
-    @NotEmpty(message="This address field is required")
+    @NotEmpty(message = "This address field is required")
     private String county;
-    @NotEmpty(message="This postal code field is required")
+    @NotEmpty(message = "This postal code field is required")
     private String postalCode;
     // @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp(source = SourceType.DB)
     private Timestamp createdAt;
-    
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-     // Getters and Setters
+    // Getters and Setters
 
     public long getId() {
         return id;
@@ -110,7 +109,4 @@ public class Address {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    
-
 }
