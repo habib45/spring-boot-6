@@ -2,23 +2,27 @@ package com.chat2.chat2.Models;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private Integer userId;
     @NotNull(message = "This address field is required")
     private String address;
     private String saddress;
@@ -35,8 +39,16 @@ public class Address {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
+    // log.info("After save update timestamp: " + employee.getCreatedDate());
     // Getters and Setters
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public long getId() {
         return id;
