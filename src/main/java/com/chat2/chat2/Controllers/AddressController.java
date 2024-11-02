@@ -3,6 +3,7 @@ package com.chat2.chat2.Controllers;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,11 +33,18 @@ public class AddressController {
         this.address = address;
     }
     
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<List<Address>> getAddress(@PathVariable Long userId){
         return ResponseEntity.ok(this.address.findAll(userId));
-
     }
+
+    // produces = MediaType.APPLICATION_JSON_VALUE
+
+    @PostMapping(path="/search")
+    public ResponseEntity<List<Address>> searchAddress(@RequestBody Address request){
+        return ResponseEntity.ok(this.address.searchAddress(request));
+    }
+
     @PostMapping
     public ResponseEntity<Address> saveAddress(@Valid @RequestBody Address requestAddress ){
         return ResponseEntity.ok(this.address.saveAddress(requestAddress));

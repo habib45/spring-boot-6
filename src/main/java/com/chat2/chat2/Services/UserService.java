@@ -1,6 +1,7 @@
 package com.chat2.chat2.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.chat2.chat2.exception.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +34,7 @@ public class UserService {
 
     public User CreateUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        if(user.getStatus()==null){
+        if(user.getStatus().isEmpty()){
             user.setStatus("Active");
         }
         return this.userRepository.save(user);
@@ -57,7 +59,7 @@ public class UserService {
             user.setMobile(updateRequest.getMobile());
         }
 
-         if (updateRequest.getMobile() != null) {
+        if (updateRequest.getMobile() != null) {
             user.setMobile(updateRequest.getMobile());
         }
 

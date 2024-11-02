@@ -26,7 +26,13 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(this.userService.findAll());
+        List<User> users = this.userService.findAll();
+        if (users.isEmpty()) {
+            return ResponseEntity.ofNullable(users);
+        }else{
+            return ResponseEntity.ok(users);
+        }
+        
     }
 
     @PostMapping("/users")

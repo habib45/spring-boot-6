@@ -2,33 +2,42 @@ package com.chat2.chat2.Services;
 
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.chat2.chat2.Models.Address;
-import com.chat2.chat2.Models.User;
 import com.chat2.chat2.Repositories.AddressRepository;
-import com.chat2.chat2.Requests.UserUpdateRequest;
-import com.chat2.chat2.exception.DataNotFoundException;
-
 import jakarta.transaction.Transactional;
 
 @Service
 public class AddressService {
 
+    private static final Logger logger = Logger.getLogger(AddressService.class.getName());
     @Autowired
-    private AddressRepository address;    
+    private AddressRepository address;
 
     public AddressService(AddressRepository address) {
-            this.address = address;
-        }
-
-    @SuppressWarnings("unchecked")
-    public List<Address> findAll(Long userId) {
-        return (List<Address>) this.address.findByUserId(userId);
+        this.address = address;
     }
 
-    public Address saveAddress(Address requestAddress){
+    public List<Address> findAll(Long userId) {
+        return this.address.findAllByUserId(userId);
+    }
+
+    public List<Address> searchAddress(Address request) {
+        if (request.getUserId() != null) {
+            request.setUserId(request.getUserId());
+        } else {
+            request.setUserId(1);
+        }
+        // logger.log(Level.INFO, "info log"+ request.getUserId());
+
+        return this.address.searchAddress(request.getUserId(), request.getAddress(), request.getPostalCode());
+    }
+
+    public Address saveAddress(Address requestAddress) {
         return this.address.save(requestAddress);
     }
 

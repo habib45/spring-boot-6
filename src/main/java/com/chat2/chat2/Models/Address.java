@@ -1,11 +1,8 @@
 package com.chat2.chat2.Models;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
@@ -33,12 +30,12 @@ public class Address {
     private String county;
     @NotEmpty(message = "This postal code field is required")
     private String postalCode;
-    // @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @CreationTimestamp(source = SourceType.DB)
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    // @CreationTimestamp(source = SourceType.DB)
     private Timestamp createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
     // log.info("After save update timestamp: " + employee.getCreatedDate());
     // Getters and Setters
 
@@ -114,11 +111,11 @@ public class Address {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
