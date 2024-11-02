@@ -1,6 +1,8 @@
 package com.chat2.chat2.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,10 @@ import com.chat2.chat2.Services.UserService;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -55,4 +61,11 @@ public class UserController {
         this.userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @RequestMapping(value = "/pagindAndShortingUser/{pageNumber}/{pageSize}", method=RequestMethod.GET)
+    public Page<User> userPegination(@PathVariable Integer pageNumber, @PathVariable Integer pageSize) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return this.userService.getUserPaginator(pageNumber,pageSize,sort);
+    }
+    
 }

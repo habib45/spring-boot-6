@@ -1,6 +1,10 @@
 package com.chat2.chat2.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -73,5 +77,10 @@ public class UserService {
 
     public void deleteById(Long id) {
         this.userRepository.deleteById(id);
+    }
+
+    public Page<User> getUserPaginator(Integer pageNumber, Integer pageSize, Sort sort) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize,sort);      
+        return this.userRepository.findAll(pageable);
     }
 }
